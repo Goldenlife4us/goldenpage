@@ -1,0 +1,50 @@
+name: Weekly Content Generation
+
+on:
+  schedule:
+    - cron: "0 1 * * 1" # every Monday 01:00 UTC (10:00 KST)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            You maintain "혼자살림", a Korean blog (Astro site, this repo) that helps
+            1-person households (1인 가구) choose small appliances and household items.
+            Posts live in src/content/blog/*.md with frontmatter matching the schema in
+            src/content.config.ts (title, description, pubDate, updatedDate?, tags[]).
+
+            Do the following:
+            1. Read every existing file in src/content/blog/ to see which topics and
+               products are already covered.
+            2. Pick ONE new, specific, evergreen topic in the same niche (small
+               appliances / household items / safety / organization for people living
+               alone in small spaces) that is not yet covered. Avoid generic restating
+               of an existing post.
+            3. Write one new Markdown post (600-1000 Korean words) in the same voice and
+               structure as the existing posts: criteria-based buying guide, no
+               fabricated specific product names/prices/specs (prices and lineups change
+               and must not be invented), use real, verifiable general knowledge only.
+               Include the same `<div class="affiliate-box">...</div>` placeholder block
+               used in other posts, noting the 쿠팡파트너스 link will be added later.
+               Set pubDate to today's date (UTC date of this run).
+            4. Do not modify any existing files, do not touch site code, only add the
+               one new file under src/content/blog/.
+            5. Configure git user as "혼자살림 bot" <bot@users.noreply.github.com>, commit
+               the new file with message "content: add weekly post on <topic>", and push
+               directly to the `main` branch (rebase onto origin/main first if it has
+               moved). If anything is unclear or you cannot find a genuinely new,
+               non-duplicate topic, stop and do not commit rather than publishing a weak
+               or duplicate post.
+          claude_args: "--max-turns 40"

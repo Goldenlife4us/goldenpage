@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout
+	title="1인 가구 생활템 비교 가이드"
+	description="1인 가구를 위한 소형가전·생활용품을 용량, 소음, 소비전력, 안전 기준으로 비교하는 가이드 블로그입니다."
+>
+	<h1>혼자살림</h1>
+	<p>1인 가구를 위한 소형가전·생활용품, 광고가 아니라 <strong>고르는 기준</strong> 중심으로 정리합니다.</p>
+
+	<section>
+		{
+			posts.map((post) => (
+				<a class="post-card" href={`${import.meta.env.BASE_URL}blog/${post.id}/`}>
+					<time datetime={post.data.pubDate.toISOString()}>
+						{post.data.pubDate.toLocaleDateString('ko-KR')}
+					</time>
+					<h2>{post.data.title}</h2>
+					<p>{post.data.description}</p>
+					<div>
+						{post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+					</div>
+				</a>
+			))
+		}
+	</section>
+</Layout>

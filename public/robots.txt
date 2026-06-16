@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://goldenlife4us.github.io/goldenpage/sitemap-index.xml

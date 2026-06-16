@@ -1,0 +1,115 @@
+---
+interface Props {
+	title: string;
+	description: string;
+}
+
+const { title, description } = Astro.props;
+const siteTitle = '혼자살림';
+const pageTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+---
+
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{pageTitle}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+	</head>
+	<body>
+		<header class="site-header">
+			<a class="brand" href={import.meta.env.BASE_URL}>혼자살림</a>
+			<nav>
+				<a href={import.meta.env.BASE_URL}>홈</a>
+				<a href={`${import.meta.env.BASE_URL}about/`}>소개</a>
+				<a href={`${import.meta.env.BASE_URL}disclosure/`}>제휴 고지</a>
+			</nav>
+		</header>
+		<main>
+			<slot />
+		</main>
+		<footer class="site-footer">
+			<p>
+				이 페이지에서 제공하는 일부 링크는 제휴 링크이며, 이를 통해 구매가 이루어질 경우
+				혼자살림은 일정액의 수수료를 제공받을 수 있습니다. (쿠팡파트너스 활동의 일환으로
+				일정액의 수수료를 제공받습니다.)
+			</p>
+			<p>&copy; {new Date().getFullYear()} 혼자살림 · <a href={`${import.meta.env.BASE_URL}disclosure/`}>제휴 고지 / 개인정보처리방침</a></p>
+		</footer>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		color-scheme: light;
+		--text: #1f2328;
+		--muted: #5b6470;
+		--bg: #fdfcfb;
+		--accent: #b5651d;
+		--border: #e7e2dc;
+	}
+	* { box-sizing: border-box; }
+	body {
+		margin: 0;
+		font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', Pretendard, sans-serif;
+		color: var(--text);
+		background: var(--bg);
+		line-height: 1.7;
+	}
+	a { color: var(--accent); text-decoration: none; }
+	a:hover { text-decoration: underline; }
+	.site-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		max-width: 760px;
+		margin: 0 auto;
+		padding: 1.5rem 1.25rem;
+	}
+	.brand { font-weight: 700; font-size: 1.25rem; color: var(--text); }
+	.site-header nav a { margin-left: 1.25rem; color: var(--muted); font-size: 0.95rem; }
+	main {
+		max-width: 760px;
+		margin: 0 auto;
+		padding: 0 1.25rem 3rem;
+		min-height: 60vh;
+	}
+	.site-footer {
+		border-top: 1px solid var(--border);
+		max-width: 760px;
+		margin: 0 auto;
+		padding: 1.5rem 1.25rem 3rem;
+		color: var(--muted);
+		font-size: 0.85rem;
+	}
+	h1, h2, h3 { line-height: 1.35; }
+	.post-card {
+		display: block;
+		padding: 1.25rem 0;
+		border-bottom: 1px solid var(--border);
+	}
+	.post-card h2 { margin: 0 0 0.4rem; font-size: 1.15rem; }
+	.post-card time { color: var(--muted); font-size: 0.85rem; }
+	.post-card p { color: var(--muted); margin: 0.4rem 0 0; }
+	.tag {
+		display: inline-block;
+		background: #f1ece4;
+		color: var(--muted);
+		border-radius: 999px;
+		padding: 0.15rem 0.7rem;
+		font-size: 0.78rem;
+		margin-right: 0.4rem;
+	}
+	.affiliate-box {
+		background: #fbf6ec;
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		padding: 1rem 1.25rem;
+		margin: 1.5rem 0;
+	}
+	.affiliate-box p { margin: 0.3rem 0; font-size: 0.9rem; color: var(--muted); }
+</style>
