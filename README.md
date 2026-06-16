@@ -25,7 +25,8 @@ npm run build     # ./dist 에 정적 빌드
 
 - `.github/workflows/deploy.yml` — `main` 브랜치에 push되면 GitHub Pages로 자동 배포
 - `.github/workflows/weekly-content.yml` — 매주 월요일, 기존 글과 중복되지 않는 새 글을
-  자동으로 작성해서 `main`에 직접 커밋·푸시 (Claude Code Action 사용)
+  자동으로 작성해서 새 브랜치에 커밋하고 `main`으로 PR을 엽니다 (Claude Code Action 사용).
+  `main`에는 직접 푸시하지 않으므로, 가볍게 훑어보고 머지만 하면 됩니다.
 
 ## 시작 전에 사용자가 직접 해야 하는 일 ("큰 결정")
 
