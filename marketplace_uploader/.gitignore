@@ -1,0 +1,10 @@
+# 생성된 출력 파일은 git에서 제외 (실행 후 자동 생성됨)
+output/
+
+# Python 캐시
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
